@@ -1,0 +1,22 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "istream": "cpp",
+        "vector": "cpp",
+        "utility": "cpp",
+        "unordered_set": "cpp",
+        "algorithm": "cpp",
+        "unordered_map": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "xhash": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp",
+        "stack": "cpp",
+        "iostream": "cpp"
+    }
+}
