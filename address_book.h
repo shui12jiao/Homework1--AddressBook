@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "rbtree.h"
+#include "avltree.hpp"
 
 class Person {
    public:
@@ -35,8 +35,8 @@ class Book {
     void show();
 
    private:
-    RBTree* book;
-    RBTree* book_phone;
+    AVLTree<Person>* book;
+    AVLTree<std::string>* book_phone;
     int number;
 };
 
