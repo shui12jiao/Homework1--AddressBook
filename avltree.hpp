@@ -124,28 +124,31 @@ AVLTNode<T> *AVLTree<T>::remove(T key, AVLTNode<T> *tree) {
             tree->right = remove(key, tree->right);
         } else {
             if (tree->left != nullptr && tree->right != nullptr) {
-                AVLTNode<T> *preNode = tree;
                 if (height(tree->left) > height(tree->right)) {
-                    AVLTNode<T> *maxNode = tree->left;
-                    while (maxNode->right != nullptr) {
-                        preNode = maxNode;
-                        maxNode = maxNode->right;
+                    AVLTNode<T> *temp = tree->left;
+                    while (temp->right != nullptr) {
+                        temp = temp->right;
                     }
-                    preNode->left = maxNode  //------------------
-
-                                    if (tree->left->left == nullptr &&) tree->key = remove_max(tree->left);
-
+                    int key = temp->key;
+                    remove(key, tree);
+                    tree->key = key;
                 } else {
-                    tree->key = remove_min(tree->right);
+                    AVLTNode<T> *temp = tree->right;
+                    while (temp->left != nullptr) {
+                        temp = temp->left;
+                    }
+                    int key = temp->key;
+                    remove(key, tree);
+                    tree->key = key;
                 }
             } else if (tree->left != nullptr) {
-                AVLTNode<T> *temp = tree;
-                tree = tree->left;
-                delete temp;
+                tree->key = tree->left->key;
+                delete tree->left;
+                tree->left = nullptr;
             } else if (tree->right != nullptr) {
-                AVLTNode<T> *temp = tree;
-                tree = tree->right;
-                delete temp;
+                tree->key = tree->right->key;
+                delete tree->right;
+                tree->right = nullptr;
             } else {
                 delete tree;
                 return nullptr;
@@ -184,6 +187,9 @@ int AVLTree<T>::get_balance_factor(AVLTNode<T> *tree) const {
 
 template <typename T>
 AVLTNode<T> *AVLTree<T>::balance(AVLTNode<T> *tree) {
+    if (tree == nullptr) {
+        return tree;
+    }
     int factor = get_balance_factor(tree);
     if (factor > 1 && get_balance_factor(tree->left) > 0) {
         root = rotate_right(tree);
