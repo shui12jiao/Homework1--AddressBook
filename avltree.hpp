@@ -1,5 +1,5 @@
-#ifndef AVLTREE_H__
-#define AVLTREE_H__
+#ifndef AVLTREE_HPP__
+#define AVLTREE_HPP__
 
 template <typename T>
 class AVLTNode {
@@ -13,8 +13,8 @@ class AVLTNode {
 
 template <typename T>
 class AVLTree {
-    //    private:
-   public:
+    //    public:
+   private:
     AVLTNode<T> *root;
 
    public:
@@ -23,8 +23,8 @@ class AVLTree {
 
     int height(AVLTNode<T> *tree) const;
     void destroy(AVLTNode<T> *tree);
-    AVLTNode<T> *insert(T key);
-    AVLTNode<T> *remove(T key);
+    int insert(T key);
+    int remove(T key);
     AVLTNode<T> *search(T key) const;
 
    private:
@@ -35,13 +35,12 @@ class AVLTree {
     AVLTNode<T> *balance(AVLTNode<T> *tree);
     AVLTNode<T> *rotate_left(AVLTNode<T> *h);
     AVLTNode<T> *rotate_right(AVLTNode<T> *h);
-    T remove_min(AVLTNode<T> *tree);
-    T remove_max(AVLTNode<T> *tree);
 };
 
 template <typename T>
 AVLTree<T>::~AVLTree() {
     destroy(root);
+    root = nullptr;
 }
 
 template <typename T>
@@ -59,7 +58,7 @@ void AVLTree<T>::destroy(AVLTNode<T> *tree) {
     }
     destroy(tree->left);
     destroy(tree->right);
-    delete (tree);
+    delete tree;
     tree = nullptr;
 }
 
@@ -84,13 +83,29 @@ AVLTNode<T> *AVLTree<T>::rotate_right(AVLTNode<T> *h) {
 }
 
 template <typename T>
-AVLTNode<T> *AVLTree<T>::insert(T key) {
-    return insert(key, root);
+int AVLTree<T>::insert(T key) {
+    if (search(key, root) != nullptr) {
+        return -1;
+    }
+    insert(key, root);
+    if (search(key, root) == nullptr) {
+        return 0;
+    } else {
+        return 1;
+    }
 }
 
 template <typename T>
-AVLTNode<T> *AVLTree<T>::remove(T key) {
-    return remove(key, root);
+int AVLTree<T>::remove(T key) {
+    if (search(key, root) == nullptr) {
+        return -1;
+    }
+    remove(key, root);
+    if (search(key, root) == nullptr) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 template <typename T>
@@ -210,31 +225,4 @@ AVLTNode<T> *AVLTree<T>::balance(AVLTNode<T> *tree) {
     return tree;
 }
 
-template <typename T>
-T AVLTree<T>::remove_min(AVLTNode<T> *tree) {
-    if (tree == nullptr) throw "The incoming parameter is a null pointer!";
-
-    if (tree->left == nullptr) {
-    }
-
-    T temp = tree->key;
-    delete tree;
-    tree = nullptr;
-    return temp;
-}
-
-template <typename T>
-T AVLTree<T>::remove_max(AVLTNode<T> *tree) {
-    if (tree == nullptr) throw "The incoming parameter is a null pointer!";
-
-    while (tree->right != nullptr) {
-        tree = tree->right;
-    }
-
-    T temp = tree->key;
-    delete tree;
-    tree = nullptr;
-    return temp;
-}
-
-#endif  // AVLTREE_H__
+#endif  // AVLTREE_HPP__

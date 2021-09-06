@@ -7,16 +7,13 @@
 
 class Person {
    public:
-    Person();
+    Person(std::string n, std::a, int p);
     ~Person();
-    int add_phone(int phone);
-    int del_phone(int phone);
 
    private:
-    int change_length(int old_length, int new_length);
     std::string name;
     std::string address;
-    int* phones;
+    int phone;
     int number;
 };
 
@@ -24,19 +21,19 @@ class Book {
    public:
     Book();
     ~Book();
-    void search_name(std::string name);
-    void search_phone(int phone);
-    Person add();
-    Person del(std::string name);
-    Person del(int phone);
-    Person mod(std::string name);
-    Person mod(int phone);
+    Person* search(std::string name);
+    Person* search(int phone);
+    Person* add();
+    Person* del(std::string name);
+    Person* del(int phone);
+    Person* mod(std::string name);
+    Person* mod(int phone);
     void sort();
     void show();
 
    private:
     AVLTree<Person>* book;
-    AVLTree<std::string>* book_phone;
+    AVLTree<int>* book_phone;
     int number;
 };
 
