@@ -3,11 +3,12 @@
 
 #include <iostream>
 
+#include "array.hpp"
 #include "avltree.hpp"
 
 class Person {
    public:
-    Person(std::string n, std::a, int p);
+    Person(std::string n, std::string a, int p);
     ~Person();
 
    private:

@@ -15,7 +15,8 @@ class Array {
     ~Array();
     int push(T x);
     int remove(T x);
-    bool search(T x);
+    int search(T x);
+    T operator[](int i) { return array[i]; }
 
    private:
     int change_length(int old_length, int new_length);
@@ -28,38 +29,60 @@ Array<T>::Array(int l) : number(0) {
 }
 
 template <typename T>
-~Array<T>::Array(int n) {
+Array<T>::~Array() {
     number = 0;
     delete[] array;
 }
 
 template <typename T>
-bool Array<T>::search(T x) {
+int Array<T>::search(T x) {
     for (int i = 0; i < number; ++i) {
         if (x == array[i]) {
-            return true;
+            return i;
         }
     }
-    return false;
+    return -1;
 }
 
 template <typename T>
 int Array<T>::push(T x) {
-    if (search(x)) {
+    if (search(x) > 0) {
         return -1;
     }
     if (number >= length) {
         change_length(length, length * 2);
-    } else if (number * 3 <= length) {
-        change_length(length, lenght / 2);
+    } else if (number * 4 <= length) {
+        change_length(length, length / 2);
     }
-    Array[++number] = x;
+    array[++number] = x;
+    return 1;
 }
 
 template <typename T>
 int Array<T>::remove(T x) {
-    if (!search(x)) {
+    int index = search(x);
+    if (index < 0) {
+        return -1;
     }
+    if (index + 1 != number) {
+        for (int i = index; i < number; ++i) {
+            array[i] = array[i + 1];
+        }
+    }
+    --number;
+    return 1;
+}
+
+template <typename T>
+int Array<T>::change_length(int old_length, int new_length) {
+    length = new_length;
+    T* temp = new T[length];
+    for (int i = 0; i < number; ++i) {
+        temp[i] = array[i];
+    }
+    delete[] array;
+    array = temp;
+    return length;
 }
 
 #endif  // ARRAY_H__

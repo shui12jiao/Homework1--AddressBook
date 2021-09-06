@@ -1,7 +1,6 @@
 #include <ctime>
 
 #include "address_book.h"
-#include "avltree.hpp"
 
 using namespace std;
 
@@ -34,20 +33,15 @@ void printA(AVLTNode<int> *tree) {
 
 int main() {
     srand(time(NULL));
-    AVLTree<int> *AVL = new AVLTree<int>();
 
-    for (int i = 0; i < 10000; ++i) {
-        AVL->insert(rand() % 10000);
+    Array<int> arr;
+    for (int i = 0; i < 10; ++i) {
+        arr.push(rand() % 20 + 1);
     }
-
-    // printB(AVL->root);
-    cout << endl << endl;
-
-    for (int i = 0; i < 5000; ++i) {
-        AVL->remove(rand() % 10000);
+    for (int i = 0; i < arr.number; ++i) {
+        cout << arr[i] << ' ';
     }
-
-    // printB(AVL->root);
+    cout << endl;
 
     return 0;
 }
