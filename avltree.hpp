@@ -26,6 +26,7 @@ class AVLTree {
     int insert(T key);
     int remove(T key);
     AVLTNode<T> *search(T key) const;
+    void print_tree() const;
 
    private:
     AVLTNode<T> *insert(T key, AVLTNode<T> *tree);
@@ -35,6 +36,7 @@ class AVLTree {
     AVLTNode<T> *balance(AVLTNode<T> *tree);
     AVLTNode<T> *rotate_left(AVLTNode<T> *h);
     AVLTNode<T> *rotate_right(AVLTNode<T> *h);
+    void print_tree(AVLTNode<T> *tree) const;
 };
 
 template <typename T>
@@ -80,6 +82,11 @@ AVLTNode<T> *AVLTree<T>::rotate_right(AVLTNode<T> *h) {
     h->height = (height(h->right) > height(h->left) ? height(h->right) : height(h->left)) + 1;
     x->height = (height(x->right) > height(h) ? height(x->right) : height(h)) + 1;
     return x;
+}
+
+template <typename T>
+void AVLTree<T>::print_tree() const {
+    print_tree(root);
 }
 
 template <typename T>
@@ -223,6 +230,16 @@ AVLTNode<T> *AVLTree<T>::balance(AVLTNode<T> *tree) {
     }
     root = tree;
     return tree;
+}
+
+template <typename T>
+void AVLTree<T>::print_tree(AVLTNode<T> *tree) const {
+    if (tree == nullptr) {
+        return;
+    }
+    print_tree(tree->left);
+    std::cout << tree->key << std::endl;
+    print_tree(tree->right);
 }
 
 #endif  // AVLTREE_HPP__

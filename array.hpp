@@ -5,8 +5,6 @@ template <typename T>
 class Array {
    public:
     int number;
-
-   private:
     T* array;
     int length;
 
@@ -17,6 +15,13 @@ class Array {
     int remove(T x);
     int search(T x);
     T operator[](int i) { return array[i]; }
+
+    bool operator==(const Array& a) { return *array == *a.array; }
+    bool operator!=(const Array& a) { return *array != *a.array; }
+    bool operator>(const Array& a) { return *array > *a.array; }
+    bool operator<(const Array& a) { return *array < *a.array; }
+    bool operator>=(const Array& a) { return *array >= *a.array; }
+    bool operator<=(const Array& a) { return *array <= *a.array; }
 
    private:
     int change_length(int old_length, int new_length);
@@ -51,10 +56,8 @@ int Array<T>::push(T x) {
     }
     if (number >= length) {
         change_length(length, length * 2);
-    } else if (number * 4 <= length) {
-        change_length(length, length / 2);
     }
-    array[++number] = x;
+    array[number++] = x;
     return 1;
 }
 
@@ -63,6 +66,12 @@ int Array<T>::remove(T x) {
     int index = search(x);
     if (index < 0) {
         return -1;
+    }
+    if (number <= 0) {
+        return 0;
+    }
+    if (number * 4 <= length) {
+        change_length(length, length / 2);
     }
     if (index + 1 != number) {
         for (int i = index; i < number; ++i) {

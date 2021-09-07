@@ -8,34 +8,60 @@
 
 class Person {
    public:
-    Person(std::string n, std::string a, int p);
-    ~Person();
-
-   private:
     std::string name;
     std::string address;
-    int phone;
+    Array<int> phones;
     int number;
+
+   public:
+    Person(std::string n = "", std::string a = "") : name(n), address(a) {}
+    ~Person() {}
+    friend std::ostream& operator<<(std::ostream& out, const Person& p);
+
+    bool operator==(const Person& p) { return name == p.name; }
+    bool operator!=(const Person& p) { return name != p.name; }
+    bool operator>(const Person& p) { return name > p.name; }
+    bool operator<(const Person& p) { return name < p.name; }
+    bool operator>=(const Person& p) { return name >= p.name; }
+    bool operator<=(const Person& p) { return name <= p.name; }
 };
 
 class Book {
+    class Pair {
+       public:
+        int key;
+        std::string val;
+
+       public:
+        Pair(int p, std::string n) : key(p), val(n) {}
+        ~Pair() {}
+
+        bool operator==(const int p) { return key == p; }
+        bool operator!=(const int p) { return key != p; }
+        bool operator>(const int p) { return key > p; }
+        bool operator<(const int p) { return key < p; }
+        bool operator>=(const int p) { return key >= p; }
+        bool operator<=(const int p) { return key <= p; }
+    };
+
+   private:
+    AVLTree<Person> book;
+    AVLTree<Pair> book_phone;
+    int number = 0;
+
    public:
-    Book();
-    ~Book();
-    Person* search(std::string name);
-    Person* search(int phone);
-    Person* add();
-    Person* del(std::string name);
-    Person* del(int phone);
-    Person* mod(std::string name);
-    Person* mod(int phone);
+    Book() {}
+    ~Book() {}
+    void search();
+    void add();
+    void del();
+    void mod();
     void sort();
     void show();
 
    private:
-    AVLTree<Person>* book;
-    AVLTree<int>* book_phone;
-    int number;
+    Person* search_name(std::string name);
+    Person* search_phone(int phone);
 };
 
 #endif  // ADDRESS_BOOK_H__
