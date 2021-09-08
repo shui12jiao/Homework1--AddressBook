@@ -37,6 +37,7 @@ template <typename T>
 Array<T>::~Array() {
     number = 0;
     delete[] array;
+    array = nullptr;
 }
 
 template <typename T>
@@ -51,7 +52,7 @@ int Array<T>::search(T x) {
 
 template <typename T>
 int Array<T>::push(T x) {
-    if (search(x) > 0) {
+    if (search(x) >= 0) {
         return -1;
     }
     if (number >= length) {

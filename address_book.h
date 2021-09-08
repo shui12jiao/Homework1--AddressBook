@@ -11,7 +11,6 @@ class Person {
     std::string name;
     std::string address;
     Array<int> phones;
-    int number;
 
    public:
     Person(std::string n = "", std::string a = "") : name(n), address(a) {}
@@ -36,12 +35,12 @@ class Book {
         Pair(int p, std::string n) : key(p), val(n) {}
         ~Pair() {}
 
-        bool operator==(const int p) { return key == p; }
-        bool operator!=(const int p) { return key != p; }
-        bool operator>(const int p) { return key > p; }
-        bool operator<(const int p) { return key < p; }
-        bool operator>=(const int p) { return key >= p; }
-        bool operator<=(const int p) { return key <= p; }
+        bool operator==(const Pair& p) { return key == p.key; }
+        bool operator!=(const Pair& p) { return key != p.key; }
+        bool operator>(const Pair& p) { return key > p.key; }
+        bool operator<(const Pair& p) { return key < p.key; }
+        bool operator>=(const Pair& p) { return key >= p.key; }
+        bool operator<=(const Pair& p) { return key <= p.key; }
     };
 
    private:

@@ -151,7 +151,7 @@ AVLTNode<T> *AVLTree<T>::remove(T key, AVLTNode<T> *tree) {
                     while (temp->right != nullptr) {
                         temp = temp->right;
                     }
-                    int key = temp->key;
+                    T key = temp->key;
                     remove(key, tree);
                     tree->key = key;
                 } else {
@@ -159,7 +159,7 @@ AVLTNode<T> *AVLTree<T>::remove(T key, AVLTNode<T> *tree) {
                     while (temp->left != nullptr) {
                         temp = temp->left;
                     }
-                    int key = temp->key;
+                    T key = temp->key;
                     remove(key, tree);
                     tree->key = key;
                 }
@@ -196,6 +196,7 @@ AVLTNode<T> *AVLTree<T>::search(T key, AVLTNode<T> *tree) const {
             return tree;
         }
     }
+    throw "error";
 }
 
 template <typename T>
