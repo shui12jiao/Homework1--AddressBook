@@ -9,7 +9,7 @@
                 "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "E:\\Projects\\C++\\数据结构与算法作业1--通讯录\\address_book.cpp"
+                "D:\\Projects\\C++\\数据结构与算法作业1--通讯录\\address_book.cpp"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"

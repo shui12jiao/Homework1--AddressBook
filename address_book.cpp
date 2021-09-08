@@ -15,7 +15,9 @@ void Book::search() {
     std::cout << "请输入联系人名称或电话号码:" << std::endl;
 
     std::string input;
-    std::cin >> input;
+    std::cin.ignore();
+    getline(std::cin, input);
+    trim(input);
 
     bool digit = true;
     for (char c : input) {
@@ -34,27 +36,57 @@ void Book::search() {
     if (person == nullptr) {
         std::cout << "不存在该联系人, 是否添加?" << std::endl;
     } else {
-        std::cout << person << std::endl;
+        std::cout << *person << std::endl;
     }
 }
 
 void Book::add() {
     std::cout << "请依次输入联系人姓名, 地址, 联系电话 (回车键输入, 如有多个电话, 请以空格分隔开来)" << std::endl;
     std::string name, address, phones;
+    std::cin.ignore();
 
-    // std::cin >> std::noskipws;
-    // std::cin >> name >> address >> phones;
+wr_name:
+    std::cout << "姓名: ";
     getline(std::cin, name);
+    trim(name);
+    bool space = true;
+    for (char c : name) {
+        if (!isspace(c)) {
+            space = false;
+            break;
+        }
+    }
+    if (space) {
+        std::cout << "输入姓名为空, 请重新输入\n" << std::endl;
+        goto wr_name;
+    }
+    Person* exist = search_name(name);
+    if (exist != nullptr) {
+        std::cout << "该联系人已存在: ";
+        std::cout << *exist << '\n' << std::endl;
+        goto wr_name;
+    }
+
+wr_address:
+    std::cout << "地址: ";
     getline(std::cin, address);
+    trim(address);
+    space = true;
+    for (char c : address) {
+        if (!isspace(c)) {
+            space = false;
+            break;
+        }
+    }
+    if (space) {
+        std::cout << "输入地址为空, 请重新输入\n" << std::endl;
+        goto wr_address;
+    }
+
+    std::cout << "电话号码: ";
     getline(std::cin, phones);
 
     Person person(name, address);
-
-    if (search_name(name) != nullptr) {
-        std::cout << "该联系人已存在: " << std::endl;
-        std::cout << person << std::endl;
-        return;
-    }
 
     std::istringstream phonesStream(phones);
     int phone;
@@ -68,13 +100,16 @@ void Book::add() {
     } else {
         std::cout << "添加成功! 已添加联系人: " << std::endl;
         std::cout << person << std::endl;
+
+        book_phone;  //----------------------------
     }
 }
 
 void Book::del() {
-    std::cout << "请输入联系人姓名" << std::endl;
+    std::cout << "请输入联系人姓名: ";
     std::string name;
     std::cin >> name;
+    std::cout << std::endl;
 
     Person* person = search_name(name);
 
@@ -140,7 +175,22 @@ void Book::mod() {
 
 void Book::sort() {}
 
-void Book::show() { book.print_tree(); }
+void Book::show() {
+    std::cout << "联系人: " << std::endl;
+    book.print_tree();
+}
+
+void Book::showmenu() {
+    std::cout << "=======通讯录=======" << '\n'
+              << "1. 查看联系人" << '\n'
+              << "2. 添加联系人" << '\n'
+              << "3. 搜索联系人" << '\n'
+              << "4. 修改联系人" << '\n'
+              << "5. 删除联系人" << '\n'
+              << "6. 排序联系人" << '\n'
+              << "0. 退出通讯录" << '\n'
+              << std::endl;
+}
 
 Person* Book::search_name(std::string name) {
     Person temp(name);

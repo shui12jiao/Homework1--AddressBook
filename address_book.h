@@ -37,15 +37,19 @@ class Book {
         std::string val;
 
        public:
-        Pair(int p, std::string n) : key(p), val(n) {}
+        Pair(int k, std::string v) : key(k), val(v) {}
+        Pair(const Pair& p) {
+            key = p.key;
+            val = p.val;
+        }
         ~Pair() {}
 
-        bool operator==(const Pair& p) { return key == p.key; }
-        bool operator!=(const Pair& p) { return key != p.key; }
-        bool operator>(const Pair& p) { return key > p.key; }
-        bool operator<(const Pair& p) { return key < p.key; }
-        bool operator>=(const Pair& p) { return key >= p.key; }
-        bool operator<=(const Pair& p) { return key <= p.key; }
+        bool operator==(const Pair& p) const { return key == p.key; }
+        bool operator!=(const Pair& p) const { return key != p.key; }
+        bool operator>(const Pair& p) const { return key > p.key; }
+        bool operator<(const Pair& p) const { return key < p.key; }
+        bool operator>=(const Pair& p) const { return key >= p.key; }
+        bool operator<=(const Pair& p) const { return key <= p.key; }
     };
 
    private:
@@ -62,10 +66,15 @@ class Book {
     void mod();
     void sort();
     void show();
+    void showmenu();
 
    private:
     Person* search_name(std::string name);
     Person* search_phone(int phone);
+    void trim(std::string& str) {
+        str.erase(0, str.find_first_not_of(" \t"));
+        str.erase(str.find_last_not_of(" \t") + 1);
+    }
 };
 
 #endif  // ADDRESS_BOOK_H__
