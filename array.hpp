@@ -14,14 +14,15 @@ class Array {
     int push(T x);
     int remove(T x);
     int search(T x);
-    T operator[](int i) { return array[i]; }
 
-    bool operator==(const Array& a) { return *array == *a.array; }
-    bool operator!=(const Array& a) { return *array != *a.array; }
-    bool operator>(const Array& a) { return *array > *a.array; }
-    bool operator<(const Array& a) { return *array < *a.array; }
-    bool operator>=(const Array& a) { return *array >= *a.array; }
-    bool operator<=(const Array& a) { return *array <= *a.array; }
+    Array<T>& operator=(const Array<T>& a);
+    T operator[](int i) const { return array[i]; }
+    bool operator==(const Array<T>& a) { return *array == *a.array; }
+    bool operator!=(const Array<T>& a) { return *array != *a.array; }
+    bool operator>(const Array<T>& a) { return *array > *a.array; }
+    bool operator<(const Array<T>& a) { return *array < *a.array; }
+    bool operator>=(const Array<T>& a) { return *array >= *a.array; }
+    bool operator<=(const Array<T>& a) { return *array <= *a.array; }
 
    private:
     int change_length(int old_length, int new_length);
@@ -93,6 +94,17 @@ int Array<T>::change_length(int old_length, int new_length) {
     delete[] array;
     array = temp;
     return length;
+}
+
+template <typename T>
+Array<T>& Array<T>::operator=(const Array<T>& a) {
+    if (length < a.length) {
+        change_length(length, a.length);
+    }
+    for (int i = 0; i < a.number; ++i) {
+        push(a[i]);
+    }
+    return *this;
 }
 
 #endif  // ARRAY_H__

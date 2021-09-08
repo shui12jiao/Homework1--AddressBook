@@ -189,14 +189,13 @@ AVLTNode<T> *AVLTree<T>::search(T key, AVLTNode<T> *tree) const {
         return nullptr;
     } else {
         if (key < tree->key) {
-            search(key, tree->left);
+            return search(key, tree->left);
         } else if (key > tree->key) {
-            search(key, tree->right);
+            return search(key, tree->right);
         } else {
             return tree;
         }
     }
-    throw "error";
 }
 
 template <typename T>

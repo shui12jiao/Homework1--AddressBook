@@ -41,7 +41,13 @@ void Book::search() {
 void Book::add() {
     std::cout << "请依次输入联系人姓名, 地址, 联系电话 (回车键输入, 如有多个电话, 请以空格分隔开来)" << std::endl;
     std::string name, address, phones;
-    std::cin >> name >> address >> phones;
+
+    // std::cin >> std::noskipws;
+    // std::cin >> name >> address >> phones;
+    getline(std::cin, name);
+    getline(std::cin, address);
+    getline(std::cin, phones);
+
     Person person(name, address);
 
     if (search_name(name) != nullptr) {

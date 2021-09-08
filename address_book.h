@@ -14,15 +14,20 @@ class Person {
 
    public:
     Person(std::string n = "", std::string a = "") : name(n), address(a) {}
+    Person(const Person& p) {
+        name = p.name;
+        address = p.address;
+        phones = p.phones;
+    }
     ~Person() {}
     friend std::ostream& operator<<(std::ostream& out, const Person& p);
 
-    bool operator==(const Person& p) { return name == p.name; }
-    bool operator!=(const Person& p) { return name != p.name; }
-    bool operator>(const Person& p) { return name > p.name; }
-    bool operator<(const Person& p) { return name < p.name; }
-    bool operator>=(const Person& p) { return name >= p.name; }
-    bool operator<=(const Person& p) { return name <= p.name; }
+    bool operator==(const Person& p) const { return name == p.name; }
+    bool operator!=(const Person& p) const { return name != p.name; }
+    bool operator>(const Person& p) const { return name > p.name; }
+    bool operator<(const Person& p) const { return name < p.name; }
+    bool operator>=(const Person& p) const { return name >= p.name; }
+    bool operator<=(const Person& p) const { return name <= p.name; }
 };
 
 class Book {
