@@ -22,15 +22,15 @@ class AVLTree {
 
     int height(AVLTNode<T> *tree) const;
     void destroy(AVLTNode<T> *tree);
-    int insert(T key);
-    int remove(T key);
-    AVLTNode<T> *search(T key) const;
+    int insert(const T &key);
+    int remove(const T &key);
+    AVLTNode<T> *search(const T &key) const;
     void print_tree() const;
 
    private:
-    AVLTNode<T> *insert(T key, AVLTNode<T> *tree);
-    AVLTNode<T> *remove(T key, AVLTNode<T> *tree);
-    AVLTNode<T> *search(T key, AVLTNode<T> *tree) const;
+    AVLTNode<T> *insert(const T &key, AVLTNode<T> *tree);
+    AVLTNode<T> *remove(const T &key, AVLTNode<T> *tree);
+    AVLTNode<T> *search(const T &key, AVLTNode<T> *tree) const;
     int get_balance_factor(AVLTNode<T> *tree) const;
     AVLTNode<T> *balance(AVLTNode<T> *tree);
     AVLTNode<T> *rotate_left(AVLTNode<T> *h);
@@ -89,7 +89,7 @@ void AVLTree<T>::print_tree() const {
 }
 
 template <typename T>
-int AVLTree<T>::insert(T key) {
+int AVLTree<T>::insert(const T &key) {
     if (search(key, root) != nullptr) {
         return -1;
     }
@@ -102,7 +102,7 @@ int AVLTree<T>::insert(T key) {
 }
 
 template <typename T>
-int AVLTree<T>::remove(T key) {
+int AVLTree<T>::remove(const T &key) {
     if (search(key, root) == nullptr) {
         return -1;
     }
@@ -115,12 +115,12 @@ int AVLTree<T>::remove(T key) {
 }
 
 template <typename T>
-AVLTNode<T> *AVLTree<T>::search(T key) const {
+AVLTNode<T> *AVLTree<T>::search(const T &key) const {
     return search(key, root);
 }
 
 template <typename T>
-AVLTNode<T> *AVLTree<T>::insert(T key, AVLTNode<T> *tree) {
+AVLTNode<T> *AVLTree<T>::insert(const T &key, AVLTNode<T> *tree) {
     if (tree == nullptr) {
         tree = new AVLTNode<T>(key);
         if (root == nullptr) {
@@ -137,7 +137,7 @@ AVLTNode<T> *AVLTree<T>::insert(T key, AVLTNode<T> *tree) {
 }
 
 template <typename T>
-AVLTNode<T> *AVLTree<T>::remove(T key, AVLTNode<T> *tree) {
+AVLTNode<T> *AVLTree<T>::remove(const T &key, AVLTNode<T> *tree) {
     if (tree != nullptr) {
         if (key < tree->key) {
             tree->left = remove(key, tree->left);
@@ -183,7 +183,7 @@ AVLTNode<T> *AVLTree<T>::remove(T key, AVLTNode<T> *tree) {
 }
 
 template <typename T>
-AVLTNode<T> *AVLTree<T>::search(T key, AVLTNode<T> *tree) const {
+AVLTNode<T> *AVLTree<T>::search(const T &key, AVLTNode<T> *tree) const {
     if (tree == nullptr) {
         return nullptr;
     } else {

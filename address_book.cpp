@@ -33,7 +33,7 @@ name_or_phone:
 
     Person* person;
     if (digit) {
-        person = search_phone(std::stoi(input));
+        person = search_phone(input);
     } else {
         person = search_name(input);
     }
@@ -106,7 +106,7 @@ wr_phones:
     Person person(name, address);
 
     std::istringstream phonesStream(phones);
-    int phone;
+    std::string phone;
     while (phonesStream >> phone) {
         Person* temp = search_phone(phone);
         if (temp != nullptr) {
@@ -148,7 +148,7 @@ void Book::del() {
         while (std::cin >> input) {
             if (input == "yes") {
                 for (int i = 0; i < person->phones.number; ++i) {
-                    book_phone.remove(Pair(person->phones[i], ""))
+                    book_phone.remove(Pair(person->phones[i], ""));
                 }
                 int ret = book.remove(*person);
                 if (ret == 1) {
@@ -194,7 +194,7 @@ void Book::mod() {
         std::string phones;
         getline(std::cin, phones);
         std::istringstream phonesStream(phones);
-        int phone;
+        std::string phone;
         while (phonesStream >> phone) {
             Person* temp = search_phone(phone);
             if (temp != nullptr) {
@@ -219,7 +219,7 @@ void Book::mod() {
     }
 }
 
-void Book::sort() {
+void Book::sort() const {
     std::cout << "联系人: " << std::endl;
     // book_phone.print_tree();
 
@@ -246,12 +246,12 @@ void Book::sort() {
     }
 }
 
-void Book::show() {
+void Book::show() const {
     std::cout << "联系人: " << std::endl;
     book.print_tree();
 }
 
-void Book::showmenu() {
+void Book::showmenu() const {
     std::cout << "=======通讯录=======" << '\n'
               << "1. 查看联系人" << '\n'
               << "2. 添加联系人" << '\n'
@@ -263,7 +263,7 @@ void Book::showmenu() {
               << std::endl;
 }
 
-Person* Book::search_name(std::string name) {
+Person* Book::search_name(std::string name) const {
     Person temp(name);
     AVLTNode<Person>* node = book.search(temp);
     if (node == nullptr) {
@@ -273,7 +273,7 @@ Person* Book::search_name(std::string name) {
     }
 }
 
-Person* Book::search_phone(int phone) {
+Person* Book::search_phone(std::string phone) const {
     AVLTNode<Pair>* pair = book_phone.search(Pair(phone, ""));
     if (pair == nullptr) {
         return nullptr;

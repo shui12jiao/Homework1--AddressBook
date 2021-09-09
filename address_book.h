@@ -10,7 +10,7 @@ class Person {
    public:
     std::string name;
     std::string address;
-    Array<int> phones;
+    Array<std::string> phones;
 
    public:
     Person(std::string n = "", std::string a = "") : name(n), address(a) {}
@@ -33,11 +33,11 @@ class Person {
 class Book {
     class Pair {
        public:
-        int key;
+        std::string key;
         std::string val;
 
        public:
-        Pair(int k, std::string v) : key(k), val(v) {}
+        Pair(std::string k, std::string v) : key(k), val(v) {}
         Pair(const Pair& p) {
             key = p.key;
             val = p.val;
@@ -63,13 +63,13 @@ class Book {
     void add();
     void del();
     void mod();
-    void sort();
-    void show();
-    void showmenu();
+    void sort() const;
+    void show() const;
+    void showmenu() const;
 
    private:
-    Person* search_name(std::string name);
-    Person* search_phone(int phone);
+    Person* search_name(std::string name) const;
+    Person* search_phone(std::string phone) const;
     void trim(std::string& str) {
         str.erase(0, str.find_first_not_of(" \t"));
         str.erase(str.find_last_not_of(" \t") + 1);
