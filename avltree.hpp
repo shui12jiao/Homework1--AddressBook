@@ -13,8 +13,7 @@ class AVLTNode {
 
 template <typename T>
 class AVLTree {
-    //    public:
-   private:
+   public:
     AVLTNode<T> *root;
 
    public:

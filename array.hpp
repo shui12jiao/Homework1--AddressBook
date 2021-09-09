@@ -14,6 +14,9 @@ class Array {
     int push(T x);
     int remove(T x);
     int search(T x);
+    bool empty() { return number <= 0; }
+    T pop() { return array[--number]; }
+    T top() const { return array[number - 1]; }
 
     Array<T>& operator=(const Array<T>& a);
     T operator[](int i) const { return array[i]; }

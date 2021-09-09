@@ -44,8 +44,6 @@ class Book {
         }
         ~Pair() {}
 
-        bool operator==(const Pair& p) const { return key == p.key; }
-        bool operator!=(const Pair& p) const { return key != p.key; }
         bool operator>(const Pair& p) const { return key > p.key; }
         bool operator<(const Pair& p) const { return key < p.key; }
         bool operator>=(const Pair& p) const { return key >= p.key; }
@@ -60,6 +58,7 @@ class Book {
    public:
     Book() {}
     ~Book() {}
+
     void search();
     void add();
     void del();

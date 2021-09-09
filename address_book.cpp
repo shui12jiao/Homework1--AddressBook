@@ -16,8 +16,13 @@ void Book::search() {
 
     std::string input;
     std::cin.ignore();
+name_or_phone:
     getline(std::cin, input);
     trim(input);
+    if (input.empty()) {
+        std::cout << "输入为空, 请重新输入\n" << std::endl;
+        goto name_or_phone;
+    }
 
     bool digit = true;
     for (char c : input) {
@@ -34,7 +39,18 @@ void Book::search() {
     }
 
     if (person == nullptr) {
-        std::cout << "不存在该联系人, 是否添加?" << std::endl;
+        std::cout << "不存在该联系人, 是否添加? (输入yes/no)" << std::endl;
+        std::string input;
+        while (std::cin >> input) {
+            if (input == "yes") {
+                add();
+                break;
+            } else if (input == "no") {
+                break;
+            } else {
+                continue;
+            }
+        }
     } else {
         std::cout << *person << std::endl;
     }
@@ -83,6 +99,7 @@ wr_address:
         goto wr_address;
     }
 
+wr_phones:
     std::cout << "电话号码: ";
     getline(std::cin, phones);
 
@@ -91,8 +108,16 @@ wr_address:
     std::istringstream phonesStream(phones);
     int phone;
     while (phonesStream >> phone) {
-        person.phones.push(phone);
+        Person* temp = search_phone(phone);
+        if (temp != nullptr) {
+            std::cout << "\n电话号码" << phone << "已存在, 不予保存" << std::endl;
+            std::cout << *temp << '\n' << std::endl;
+        } else {
+            person.phones.push(phone);
+            book_phone.insert(Pair(phone, name));
+        }
     }
+
     book.insert(person);
 
     if (search_name(name) == nullptr) {
@@ -100,15 +125,15 @@ wr_address:
     } else {
         std::cout << "添加成功! 已添加联系人: " << std::endl;
         std::cout << person << std::endl;
-
-        book_phone;  //----------------------------
     }
 }
 
 void Book::del() {
     std::cout << "请输入联系人姓名: ";
     std::string name;
-    std::cin >> name;
+    std::cin.ignore();
+    getline(std::cin, name);
+    trim(name);
     std::cout << std::endl;
 
     Person* person = search_name(name);
@@ -122,7 +147,15 @@ void Book::del() {
         std::string input;
         while (std::cin >> input) {
             if (input == "yes") {
-                book.remove(name);
+                for (int i = 0; i < person->phones.number; ++i) {
+                    book_phone.remove(Pair(person->phones[i], ""))
+                }
+                int ret = book.remove(*person);
+                if (ret == 1) {
+                    std::cout << "删除成功!" << std::endl;
+                } else if (ret == 0) {
+                    std::cout << "删除失败!" << std::endl;
+                }
                 break;
             } else if (input == "no") {
                 break;
@@ -134,9 +167,12 @@ void Book::del() {
 }
 
 void Book::mod() {
-    std::cout << "请输入联系人姓名" << std::endl;
+    std::cout << "请输入联系人姓名: ";
     std::string name;
-    std::cin >> name;
+    std::cin.ignore();
+    getline(std::cin, name);
+    trim(name);
+    std::cout << std::endl;
 
     Person* person = search_name(name);
 
@@ -146,26 +182,36 @@ void Book::mod() {
         std::cout << "查询到联系人: " << std::endl;
         std::cout << *person << std::endl;
 
-        std::cout << "请输入新地址(若不改变地址则不进行输入)" << std::endl;
+        std::cout << "请输入新地址(若不改变地址则不进行输入): ";
         std::string address;
-        std::cin >> address;
-        if (address != "") {
+        getline(std::cin, address);
+        trim(address);
+        if (!address.empty()) {
             person->address = address;
         }
-        std::cout << "请输入新添加的电话号码(若不添加则不进行输入)" << std::endl;
+
+        std::cout << "请输入新添加的电话号码(若不添加则不进行输入): ";
         std::string phones;
-        std::cin >> phones;
+        getline(std::cin, phones);
         std::istringstream phonesStream(phones);
         int phone;
         while (phonesStream >> phone) {
-            person->phones.push(phone);
+            Person* temp = search_phone(phone);
+            if (temp != nullptr) {
+                std::cout << "\n电话号码" << phone << "已存在, 不予保存" << std::endl;
+                std::cout << *temp << '\n' << std::endl;
+            } else {
+                person->phones.push(phone);
+                book_phone.insert(Pair(phone, name));
+            }
         }
 
-        std::cout << "请输入欲删除的电话号码(若不删除则不进行输入)" << std::endl;
-        std::cin >> phones;
+        std::cout << "请输入欲删除的电话号码(若不删除则不进行输入): ";
+        getline(std::cin, phones);
         std::istringstream phonesStream_(phones);
         while (phonesStream_ >> phone) {
             person->phones.remove(phone);
+            book_phone.remove(Pair(phone, ""));
         }
 
         std::cout << "修改成功: " << std::endl;
@@ -173,7 +219,32 @@ void Book::mod() {
     }
 }
 
-void Book::sort() {}
+void Book::sort() {
+    std::cout << "联系人: " << std::endl;
+    // book_phone.print_tree();
+
+    Array<Person*> people;
+
+    AVLTNode<Pair>* root = book_phone.root;
+    Array<AVLTNode<Pair>*> nodes;
+
+    while (!nodes.empty() || root != nullptr) {
+        if (root != nullptr) {
+            nodes.push(root);
+            root = root->left;
+        } else {
+            root = nodes.top();
+            nodes.pop();
+            people.push(search_name(root->key.val));
+            root = root->right;
+        }
+    }
+
+    for (int i = 0; i < people.number; ++i) {
+        Person* person = people[i];
+        std::cout << *person << std::endl;
+    }
+}
 
 void Book::show() {
     std::cout << "联系人: " << std::endl;
@@ -203,7 +274,11 @@ Person* Book::search_name(std::string name) {
 }
 
 Person* Book::search_phone(int phone) {
-    Person temp(book_phone.search(Pair(phone, ""))->key.val);
+    AVLTNode<Pair>* pair = book_phone.search(Pair(phone, ""));
+    if (pair == nullptr) {
+        return nullptr;
+    }
+    Person temp(pair->key.val);
     AVLTNode<Person>* node = book.search(temp);
     if (node == nullptr) {
         return nullptr;
