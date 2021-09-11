@@ -171,6 +171,9 @@ AVLTNode<T> *AVLTree<T>::remove(const T &key, AVLTNode<T> *tree) {
                 delete tree->right;
                 tree->right = nullptr;
             } else {
+                if (tree == root) {
+                    root = nullptr;
+                }
                 delete tree;
                 return nullptr;
             }

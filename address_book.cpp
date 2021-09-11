@@ -65,17 +65,23 @@ wr_name:
     std::cout << "姓名: ";
     getline(std::cin, name);
     trim(name);
-    bool space = true;
-    for (char c : name) {
-        if (!isspace(c)) {
-            space = false;
-            break;
-        }
-    }
-    if (space) {
-        std::cout << "输入姓名为空, 请重新输入\n" << std::endl;
+
+    if (name.empty()) {
+        std::cout << "输入为空, 请重新输入\n" << std::endl;
         goto wr_name;
     }
+
+    bool digit = true;
+    for (char c : name) {
+        if (c < '0' || c > '9') {
+            digit = false;
+        }
+    }
+    if (digit) {
+        std::cout << "输入姓名为纯数字, 请重新输入\n" << std::endl;
+        goto wr_name;
+    }
+
     Person* exist = search_name(name);
     if (exist != nullptr) {
         std::cout << "该联系人已存在: ";
@@ -87,15 +93,8 @@ wr_address:
     std::cout << "地址: ";
     getline(std::cin, address);
     trim(address);
-    space = true;
-    for (char c : address) {
-        if (!isspace(c)) {
-            space = false;
-            break;
-        }
-    }
-    if (space) {
-        std::cout << "输入地址为空, 请重新输入\n" << std::endl;
+    if (name.empty()) {
+        std::cout << "输入为空, 请重新输入\n" << std::endl;
         goto wr_address;
     }
 
