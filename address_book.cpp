@@ -101,6 +101,20 @@ wr_address:
 wr_phones:
     std::cout << "电话号码: ";
     getline(std::cin, phones);
+    trim(phones);
+
+    digit = true;
+    for (char c : phones) {
+        if ((c >= '0' && c <= '9') || c == ' ') {
+            continue;
+        }
+        digit = false;
+        break;
+    }
+    if (!digit) {
+        std::cout << "输入电话号码包含数字以外字符, 请重新输入\n" << std::endl;
+        goto wr_phones;
+    }
 
     Person person(name, address);
 

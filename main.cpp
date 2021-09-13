@@ -8,7 +8,9 @@ int main() {
     Book addressBook;
     while (true) {
         addressBook.showmenu();
+
         char choice;
+
         cin >> choice;
 
         switch (choice) {
